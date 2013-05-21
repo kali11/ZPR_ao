@@ -19,7 +19,7 @@ public:
 	~Logger();
 	/**
 	* read entire log file
-
+	*
 	* @return string
 	*/
 	string read();
@@ -39,8 +39,15 @@ public:
 	*/
 	void openFile(string filename);
 
+
+
 	friend ostream& operator<<(ostream& out, const string& str);
 private:
+	/**
+	* check if we can write to the log
+	* @return bool
+	*/
+	bool canWrite();
 	bool closeFile();
 
 	fstream file;

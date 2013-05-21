@@ -25,8 +25,6 @@ public:
 	{
 		base = new RequestHolder<decltype(f)>(f);
 	}
-
-
 	
 private:
 	/*

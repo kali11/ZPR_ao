@@ -31,11 +31,6 @@ public:
 	void enqueue(Request *req);
 
 	/**
-	* join thread
-	*/
-	void join();
-
-	/**
 	* Here is main execution in a loop
 	*/
 	void operator()();
@@ -53,9 +48,7 @@ private:
 	* Class private constructor
 	*/
 	Scheduler();
-	
 	Queue queue;
-	boost::thread* thrd;
 	static Scheduler* pInstance_;
 	static volatile bool finish_; //Flaga - zg³oszenie przerwania
 	boost::mutex qmutex;

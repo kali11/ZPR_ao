@@ -4,41 +4,27 @@
 #include <algorithm>
 #include "Queue.h"
 #include "Scheduler.h"
-#include "Request.h"
-#include "Logger.h"
+#include "Logproxy.h"
 
 using namespace std;
-void test(string i)
-{
-	cout << "test " << endl;
-	cout << i << endl;
-}
 
-template <class T>
-void test2(T f)
-{
-	f(7);
-	auto g = f;
-	g(8);
-}
-
+Scheduler *s;
 int main(int argc, char *argv[])
 {
 
-Scheduler *s;
-s = Scheduler::getInstance();
-boost::this_thread::sleep(boost::posix_time::seconds(1));
-s->finish();
-s->join();
+//Scheduler *s;
+//s = Scheduler::getInstance();
 
-Scheduler *p;
-p = new Scheduler(*s);
+
+//Scheduler *p;
+//p = new Scheduler(*s);
 
 string z = "ala ma kota";
 cout << z << endl;
 
-auto w = boost::bind(test, _1);
+//auto w = boost::bind(test, _1);
 
+/*
 Logger l;
 boost::function<void (void)> ff;
 ff = boost::bind(&Logger::write, &l, "zxcxzcqwee");
@@ -46,19 +32,20 @@ ff = boost::bind(&Logger::write, &l, "zxcxzcqwee");
 Request req;
 req.load(ff);
 req.call();
+*/
 
+Logproxy proxy;
+proxy.write("Piotr Kaliniowski");
+s = Scheduler::getInstance();
+boost::thread thrd(ref(*s));
 
+boost::this_thread::sleep(boost::posix_time::milliseconds(500));
 
+s->finish();
+thrd.join();
+//s->join();
 system("PAUSE");
+
+delete s;
 return 0;
-}
-
-
-void runScheduler()
-{
-	Scheduler *s;
-	s = Scheduler::getInstance();
-	boost::this_thread::sleep(boost::posix_time::seconds(3));
-	s->finish();
-	s->join();
 }

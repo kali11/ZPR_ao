@@ -18,16 +18,11 @@ Scheduler* Scheduler::getInstance()
 
 Scheduler::Scheduler()
 {
-	thrd = new boost::thread(*this);
+	//thrd = new boost::thread(*this);
 }
 
 Scheduler::Scheduler(const Scheduler & s)
 {
-}
-
-void Scheduler::join()
-{
-	thrd->join();
 }
 
 void Scheduler::operator()()
@@ -35,7 +30,7 @@ void Scheduler::operator()()
 	while(!finish_)
 	{
 		Request *req = queue.get();
-		if(req) req->call();
+		if(req) {cout << "wykonuje" << endl; req->call();}
 	}
 }
 
@@ -46,6 +41,7 @@ void Scheduler::finish()
 
 void Scheduler::enqueue(Request *req)
 {
+	cout << "ddoaje" << endl;
 	queue.add(req);
 }
 

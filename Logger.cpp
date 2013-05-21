@@ -27,7 +27,7 @@ void Logger::openFile(string filename)
 
 void Logger::write(string s)
 {
-	cout << s.size() << "write" <<endl;
+	cout << s.size() << s << "write" <<endl;
 	//file << s;
 }
 
@@ -37,6 +37,11 @@ string Logger::read()
 	//s << file;
 	//return s;
 	return NULL;
+}
+
+bool Logger::canWrite()
+{
+	return true;
 }
 
 ostream& operator<<(ostream& out, const string& str)
