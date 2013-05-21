@@ -15,10 +15,19 @@ Queue::~Queue()
 
 Request* Queue::get()
 {
+	boost::mutex::scoped_lock scoped_lock(qmutex);
+	if(!queue.empty())
+	{
+		Request *req = queue.front();
+		queue.pop_back();
+		return req;
+	}
 	return NULL;
+
 }
 
 void Queue::add(Request *req)
 {
+	boost::mutex::scoped_lock scoped_lock(qmutex);
 	queue.push_back(req);
 }

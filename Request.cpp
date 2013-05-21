@@ -6,5 +6,9 @@ Request::Request()
 
 Request::~Request()
 {
-	cout << "usuwany obiekt Request" << endl;
+}
+
+void Request::call()
+{
+	base->callFun();
 }
