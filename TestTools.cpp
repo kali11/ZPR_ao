@@ -2,6 +2,8 @@
 #include <boost/test/unit_test.hpp>
 #include "Queue.h"
 #include "Request.h"
+#include "Logger.h"
+#include <boost\thread.hpp>
 
 using namespace boost::unit_test;
 using namespace boost::unit_test_framework;
@@ -23,6 +25,43 @@ BOOST_AUTO_TEST_CASE( queueClass )
 	q->add(req2);
 	req = q->get();
 	BOOST_CHECK(req == req2);
+}
+
+//test klasy Logger
+Logger l;
+void reader()
+{
+	for(;;)
+	{
+		
+		l.read();
+		boost::this_thread::interruption_point();
+		
+	}
+}
+void writer()
+{
+	l.write("");
+	//boost::this_thread::interruption_point();
+}
+BOOST_AUTO_TEST_CASE(LoggerClass)
+{
+	
+	boost::thread thrd1(&reader);
+	boost::thread thrd3(&writer);
+	boost::thread thrd2(&reader);
+	
+	boost::this_thread::sleep(boost::posix_time::milliseconds(1000));
+	cout << "konec" << endl;
+	thrd1.interrupt();
+	thrd2.interrupt();
+	cout << "konec222" << endl;
+	//thrd3.interrupt();
+	thrd2.join();
+	cout << "qfghh" << endl;
+	thrd1.join();
+	//thrd3.join();
+
 }
 
 

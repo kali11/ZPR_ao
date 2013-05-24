@@ -2,6 +2,7 @@
 #define LOGGER
 #include <fstream>
 #include <iostream>
+#include <boost/thread.hpp>
 
 using namespace std;
 
@@ -51,6 +52,7 @@ private:
 	bool closeFile();
 
 	fstream file;
+	boost::shared_mutex mutex;
 };
 
 #endif

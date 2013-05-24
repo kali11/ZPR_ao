@@ -9,6 +9,7 @@
 using namespace std;
 
 Scheduler *s;
+
 int main(int argc, char *argv[])
 {
 
@@ -44,6 +45,7 @@ boost::this_thread::sleep(boost::posix_time::milliseconds(500));
 s->finish();
 thrd.join();
 //s->join();
+
 system("PAUSE");
 
 delete s;

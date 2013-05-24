@@ -1,6 +1,7 @@
 #ifndef REQUEST
 #define REQUEST
 #include <iostream>
+#include <boost/any.hpp>
 
 using namespace std;
 
@@ -57,7 +58,6 @@ private:
 	};
 	
 	RequestBase *base;
-	
 };
 
 #endif

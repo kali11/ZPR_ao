@@ -6,6 +6,7 @@ volatile bool Scheduler::finish_;
 
 Scheduler::~Scheduler()
 {
+	
 }
 
 Scheduler* Scheduler::getInstance()
@@ -30,7 +31,7 @@ void Scheduler::operator()()
 	while(!finish_)
 	{
 		Request *req = queue.get();
-		if(req) {cout << "wykonuje" << endl; req->call();}
+		if(req) {req->call();}
 	}
 }
 
@@ -41,7 +42,6 @@ void Scheduler::finish()
 
 void Scheduler::enqueue(Request *req)
 {
-	cout << "ddoaje" << endl;
 	queue.add(req);
 }
 

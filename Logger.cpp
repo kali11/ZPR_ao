@@ -9,7 +9,7 @@ Logger::Logger()
 
 Logger::~Logger()
 {
-	file.close();
+	//file.close();
 }
 
 void Logger::openFile(string filename)
@@ -27,16 +27,31 @@ void Logger::openFile(string filename)
 
 void Logger::write(string s)
 {
-	cout << s.size() << s << "write" <<endl;
+	// exclusive access
+	mutex.lock();
+	//boost::unique_lock< boost::shared_mutex > lock(mutex);
+	//cout << s.size() << s << "write" <<endl;
+	cout << "pisze" << endl;
+	boost::this_thread::sleep(boost::posix_time::milliseconds(600));
+	cout << "skon_pisac" << endl;
 	//file << s;
+	mutex.unlock();
 }
 
 string Logger::read()
 {
+	// no exclusive access
+	//boost::shared_lock< boost::shared_mutex > lock(mutex);
+	mutex.lock_shared();
+	cout << "czytam" << endl;
 	//string s;
 	//s << file;
 	//return s;
-	return NULL;
+	boost::this_thread::sleep(boost::posix_time::milliseconds(200));
+	cout << "skon czytac" << endl;
+	mutex.unlock_shared();
+	
+	return "";
 }
 
 bool Logger::canWrite()
