@@ -19,7 +19,7 @@ public:
 	void call();
 
 	/**
-	* Load the request, prepare it for futer call
+	* Load the request, prepare it for future call
 	*/
 	template <typename T>
 	void load(T f)

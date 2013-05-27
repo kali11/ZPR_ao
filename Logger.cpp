@@ -32,7 +32,7 @@ void Logger::write(string s)
 	//boost::unique_lock< boost::shared_mutex > lock(mutex);
 	//cout << s.size() << s << "write" <<endl;
 	cout << "pisze" << endl;
-	boost::this_thread::sleep(boost::posix_time::milliseconds(600));
+	//boost::this_thread::sleep(boost::posix_time::milliseconds(600));
 	cout << "skon_pisac" << endl;
 	//file << s;
 	mutex.unlock();
@@ -47,7 +47,7 @@ string Logger::read()
 	//string s;
 	//s << file;
 	//return s;
-	boost::this_thread::sleep(boost::posix_time::milliseconds(200));
+	//boost::this_thread::sleep(boost::posix_time::milliseconds(200));
 	cout << "skon czytac" << endl;
 	mutex.unlock_shared();
 	

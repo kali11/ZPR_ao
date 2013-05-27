@@ -13,7 +13,7 @@ class Scheduler
 {
 public:
 	/**
-	* Public copy constructor! It is not in a singleton style, but it is needed to cerate a thread
+	* Public copy constructor! It is not in a singleton style, but it is needed to create a thread
 	*/
 	Scheduler(const Scheduler & s);
 	~Scheduler();
@@ -22,7 +22,7 @@ public:
 	* Get pointer to Scheduler instance
 	* @return pointer to Scheduler object
 	*/
-	static Scheduler* getInstance();
+	static Scheduler* getInstance(unsigned int n = 1);
 
 	/**
 	* Insert a request to the queue. Insertion is protected by mutex.
@@ -47,12 +47,23 @@ private:
 	/**
 	* Class private constructor
 	*/
-	Scheduler();
+	Scheduler(unsigned int n);
+
+	/**
+	* Calls function specified by request and changes number of pending threads.
+	* This function is always called in separate thread
+	*/
+	void call(Request * req);
+
 	Queue queue;
 	static Scheduler* pInstance_;
 	static volatile bool finish_; //Flaga - zg³oszenie przerwania
-	boost::mutex qmutex;
+	unsigned int maxThreads_;
+	/**
+	* current number of pending threads
+	*/
+	unsigned int n_;
+	boost::mutex mutex_;
 	
 };
-
 #endif
