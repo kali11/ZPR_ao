@@ -44,8 +44,16 @@ void Scheduler::operator()()
 			Request *req = queue.get();
 			if(req) 
 			{
-				//calling function given by request in separate thread
-				boost::thread thread(&Scheduler::call, this, req);
+				if(req->guard())
+				{
+					//calling function given by request in separate thread
+					boost::thread thread(&Scheduler::call, this, req);
+				}
+				else
+				{
+					queue.add(req);
+				}
+
 			}
 		}
 	}
