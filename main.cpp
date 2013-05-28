@@ -37,6 +37,7 @@ req.call();
 
 Logproxy proxy;
 proxy.write("Piotr Kaliniowski");
+proxy.write("Piotr Kaliniowski");
 s = Scheduler::getInstance();
 boost::thread thrd(ref(*s));
 

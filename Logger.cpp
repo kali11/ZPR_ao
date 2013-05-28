@@ -56,7 +56,9 @@ string Logger::read()
 
 bool Logger::canWrite()
 {
-	return true;
+	bool mutex_free = mutex.try_lock();
+	if(mutex_free) mutex.unlock();
+	return mutex_free;
 }
 
 ostream& operator<<(ostream& out, const string& str)
