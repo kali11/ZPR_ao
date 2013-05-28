@@ -19,25 +19,41 @@ public:
 	void call();
 
 	/**
+	* call guard method
+	*/
+	bool guard();
+
+	/**
 	* Load the request, prepare it for future call
 	*/
-	template <typename T>
-	void load(T f)
+	template <typename T1>
+	void load(T1 f)
 	{
 		base = new RequestHolder<decltype(f)>(f);
+	}
+
+	/**
+	* Load the guard method, which checks if a request can be executed. 
+	* Using this method is optional - use only for requests that need synchronization.
+	*/
+	template <typename T2>
+	void loadGuard(T2 f)
+	{
+		baseGuard = new GuardHolder<decltype(f)>(f);
 	}
 	
 private:
 	/*
-	* Just base, abstract class, needed to hold pointer to the RequestHolder in Request class;
+	* Just base class, needed to hold pointer to the RequestHolder in Request class;
 	*/
 	class RequestBase 
 	{
 	public:
 		/**
-		* pure virtual method
+		* virtual methods
 		*/
-		virtual void callFun() = 0;
+		virtual void callFun() {}
+		virtual bool callGuard() {return true;}
 	};
 
 	/**
@@ -53,11 +69,30 @@ private:
 		/**
 		* Here we exactly make a call on a Servant
 		*/
-		virtual void callFun(){fun(); };
+		virtual void callFun(){fun(); }
 		R fun;
+	};
+
+	/**
+	* template class, holder for the guard method. Type is a boost::function object, defined in Proxy class.
+	* 
+	*/
+	template <typename P>
+	class GuardHolder : public RequestBase
+	{
+	public:
+		GuardHolder() {}
+		GuardHolder(P r) : guard(r) {}
+		/**
+		* Here we exactly make a call on a Servant
+		*/
+		virtual bool callGuard(){return guard(); }
+		P guard;
 	};
 	
 	RequestBase *base;
+	RequestBase *baseGuard;
+
 };
 
 #endif
