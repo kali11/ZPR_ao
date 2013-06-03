@@ -10,12 +10,6 @@
 using namespace boost::unit_test;
 using namespace boost::unit_test_framework;
 
-BOOST_AUTO_TEST_CASE( SimpleTest )
-{
-	int a = 2;
-	BOOST_CHECK(a == 2);
-}
-
 // test klasy Queue
 BOOST_AUTO_TEST_CASE( queueClass )
 {
@@ -78,6 +72,7 @@ BOOST_AUTO_TEST_CASE( Scheduler_test )
 {
 	Scheduler *s = Scheduler::getInstance(4);
 	Logproxy lp("asdf.txt");
+	lp.read();
 	for(int i = 0; i < 10; ++i)
 	{
 		lp.write("asdf");

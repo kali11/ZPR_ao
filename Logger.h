@@ -3,7 +3,8 @@
 #include <iostream>
 #include <fstream>
 #include <boost/thread.hpp>
-#include <boost/date_time/gregorian/gregorian.hpp>
+#include <boost/date_time/posix_time/posix_time.hpp>
+#include <boost/date_time/date.hpp>
 
 using namespace std;
 

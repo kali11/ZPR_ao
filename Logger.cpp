@@ -9,7 +9,7 @@ Logger::Logger()
 
 Logger::~Logger()
 {
-	//file.close();
+	if(file.is_open()) file.close();
 }
 
 void Logger::openFile(string filename)
@@ -29,28 +29,21 @@ void Logger::write(string s)
 {
 	// exclusive access
 	mutex.lock();
-	//boost::unique_lock< boost::shared_mutex > lock(mutex);
-	//cout << s.size() << s << "write" <<endl;
-	//cout << "pisze" << endl;
-	//boost::this_thread::sleep(boost::posix_time::milliseconds(600));
-	//cout << "skon_pisac" << endl;
-	boost::gregorian::date current_date(boost::gregorian::day_clock::local_day());
-	if(!file.is_open()) cout << "debug" << endl;
-	cout << "[" << current_date << "]\t" << s << endl;
-	file << "[" << current_date << "]\t" << s << endl;
+	file.seekp(ios_base::end);
+	boost::posix_time::ptime now  = boost::posix_time::second_clock::local_time();
+	cout << "[" << now << "]\t" << s << endl;
+	file << "[" << now << "]\t" << s << endl;
 	mutex.unlock();
 }
 
 string Logger::read()
 {
 	// no exclusive access
-	//boost::shared_lock< boost::shared_mutex > lock(mutex);
 	mutex.lock_shared();
-	cout << "czytam" << endl;
+	file.seekg(ios_base::beg);
 	string s;
+	cout << "read" << endl;
 	file >> s;
-	//boost::this_thread::sleep(boost::posix_time::milliseconds(200));
-	cout << "skon czytac" << endl;
 	mutex.unlock_shared();
 	return s;
 }
