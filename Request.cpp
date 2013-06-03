@@ -4,7 +4,13 @@ Request::Request()
 {
 	baseGuard = new RequestBase();
 }
-
+/*
+Request::Request(boost::promise<boost::any> *p)
+{
+	baseGuard = new RequestBase();
+	promise = p;
+}
+*/
 Request::~Request()
 {
 	delete baseGuard;

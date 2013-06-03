@@ -4,15 +4,24 @@ Logproxy::Logproxy()
 {
 	scheduler = Scheduler::getInstance();
 }
-string Logproxy::read()
+boost::unique_future<string> Logproxy::read()
 {
-	return "read";
+	boost::promise<string> prom;
+	boost::unique_future<string> fut = prom.get_future();
+	boost::function<std::string (void)> fr = NULL;
+	fr = boost::bind(&Logger::read, &logger);
+
+	Request *req = new Request(&prom);
+	req->load(fr);
+	scheduler->enqueue(req);
+
+	return std::move(fut);
 }
 
 
 void Logproxy::write(string s)
 {
-	boost::function<void (void)> f;
+	boost::function<void (void)> f = NULL;
 	f = boost::bind(&Logger::write, &logger, s);
 
 	boost::function<bool (void)> g;

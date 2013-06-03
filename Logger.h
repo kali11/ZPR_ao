@@ -1,7 +1,7 @@
 #ifndef LOGGER
 #define LOGGER
-#include <fstream>
 #include <iostream>
+#include <fstream>
 #include <boost/thread.hpp>
 
 using namespace std;
@@ -46,8 +46,6 @@ public:
 	*/
 	bool canWrite();
 
-
-	friend ostream& operator<<(ostream& out, const string& str);
 private:
 
 	bool closeFile();

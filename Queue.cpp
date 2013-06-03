@@ -19,7 +19,7 @@ Request* Queue::get()
 	if(!queue.empty())
 	{
 		Request *req = queue.front();
-		queue.pop_back();
+		queue.erase(queue.begin());
 		return req;
 	}
 	return NULL;

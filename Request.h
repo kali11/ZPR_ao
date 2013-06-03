@@ -2,6 +2,7 @@
 #define REQUEST
 #include <iostream>
 #include <boost/any.hpp>
+#include <boost/thread.hpp>
 
 using namespace std;
 
@@ -12,6 +13,37 @@ class Request
 {
 public:
 	Request();
+
+	template<typename PROM>
+	Request(boost::promise<PROM> *p)
+	{
+		baseGuard = new RequestBase();
+		//promBase = new PromiseHolder<PROM>();
+		PromiseHolder<PROM> ph;
+		ph.promise = p;
+
+		boost::function<void (PROM)> setf;
+		//void (&fun)(PROM) = PromiseHolder<PROM>::setValue;
+		//void (&fun)(PROM) = ph.setValue;
+		//setf = boost::bind((void(PromiseHolder::*)(PROM&))&PromiseHolder::setValue, &ph, _1);
+		boost::bind<PROM>(PromiseFunctor(), "sdfsdfsd", ph)();
+		//boost::bind<PROM>(PromiseFunctor(), "ssss", ph)();
+		//UnaryFunction<PROM>::type func = boost::bind(&setValue<PROM>, "qwewqe", p);
+		//boost::promise<PROM>* pr = promBase->getPromise();
+		//pr = p;
+		//pr->set_value("dg");
+		
+	}
+
+	template<typename X>
+	void setValue(X val, boost::promise<X>* p)
+	{
+		p->set_value(val);
+	}
+
+
+
+
 	~Request();
 	/**
 	* Make request call
@@ -69,7 +101,10 @@ private:
 		/**
 		* Here we exactly make a call on a Servant
 		*/
-		virtual void callFun(){fun(); }
+		virtual void callFun()
+		{
+			fun();
+		}
 		R fun;
 	};
 
@@ -90,9 +125,41 @@ private:
 		P guard;
 	};
 	
+	class PromiseBase
+	{
+	public:
+		virtual void setValue() {}
+	};
+
+	template <typename PROM>
+	class PromiseHolder// : public PromiseBase
+	{
+	public:
+		//PromiseHolder() {cout << "nowy promise" << endl;}
+		void setValue(PROM val)
+		{
+			promise->set_value(val);
+		}
+		boost::promise<PROM>* promise;
+	};
+
+	class PromiseFunctor 
+	{
+		public:
+
+		template<typename ARG1, typename ARG2>
+		ARG1 operator()(ARG1 arg1, PromiseHolder<ARG2> pr) 
+		{
+			pr.setValue(arg1);
+			return arg1;
+		}
+	};
+	
+
 	RequestBase *base;
 	RequestBase *baseGuard;
-
+	PromiseBase *promBase;
+	//boost::promise<boost::any>* promise;
 };
 
 #endif

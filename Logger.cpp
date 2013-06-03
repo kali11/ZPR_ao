@@ -51,7 +51,7 @@ string Logger::read()
 	cout << "skon czytac" << endl;
 	mutex.unlock_shared();
 	
-	return "";
+	return "kali";
 }
 
 bool Logger::canWrite()
@@ -59,9 +59,4 @@ bool Logger::canWrite()
 	bool mutex_free = mutex.try_lock();
 	if(mutex_free) mutex.unlock();
 	return mutex_free;
-}
-
-ostream& operator<<(ostream& out, const string& str)
-{
-	return out;
 }

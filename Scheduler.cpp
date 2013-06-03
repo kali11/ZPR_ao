@@ -46,6 +46,9 @@ void Scheduler::operator()()
 			{
 				if(req->guard())
 				{
+					mutex_.lock();
+					++n_;
+					mutex_.unlock();
 					//calling function given by request in separate thread
 					boost::thread thread(&Scheduler::call, this, req);
 				}
@@ -71,9 +74,6 @@ void Scheduler::enqueue(Request *req)
 
 void Scheduler::call(Request* req)
 {
-	mutex_.lock();
-	++n_;
-	mutex_.unlock();
 	req->call();
 	mutex_.lock();
 	--n_;

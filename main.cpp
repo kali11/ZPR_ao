@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <boost/regex.hpp>
 #include <iterator>
 #include <algorithm>
@@ -36,8 +37,12 @@ req.call();
 */
 
 Logproxy proxy;
-proxy.write("Piotr Kaliniowski");
-proxy.write("Piotr Kaliniowski");
+//proxy.write("Piotr Kaliniowski");
+
+//proxy.write("Piotr Kaliniowski");
+boost::unique_future<string> fut = proxy.read();
+cout << fut.has_value() << endl;
+if(fut.has_value()) cout << fut.get() << endl;
 s = Scheduler::getInstance();
 boost::thread thrd(ref(*s));
 

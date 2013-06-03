@@ -6,6 +6,7 @@
 #include "Scheduler.h"
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
+#include <boost/thread.hpp>
 
 using namespace std;
 /**
@@ -15,7 +16,7 @@ class Logproxy
 {
 public:
 	Logproxy();
-	string read();
+	boost::unique_future<string> read();
 	/**
 	* Bind Logger method with parameters and add request to the scheduler's queue
 	* @param string 
