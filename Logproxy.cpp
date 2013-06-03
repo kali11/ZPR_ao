@@ -4,6 +4,13 @@ Logproxy::Logproxy()
 {
 	scheduler = Scheduler::getInstance();
 }
+
+Logproxy::Logproxy(string filename)
+{
+	scheduler = Scheduler::getInstance();
+	logger.openFile(filename);
+}
+
 boost::unique_future<string> Logproxy::read()
 {
 	boost::promise<string> prom;

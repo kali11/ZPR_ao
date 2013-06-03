@@ -43,12 +43,13 @@ void reader()
 }
 void writer()
 {
-	l.write("");
+	l.write("MarJan");
 	//boost::this_thread::interruption_point();
 }
 BOOST_AUTO_TEST_CASE(LoggerClass)
 {
-	
+	cout << "Logger test" << endl;
+	l.openFile("asdf.txt");
 	boost::thread thrd1(&reader);
 	boost::thread thrd3(&writer);
 	boost::thread thrd2(&reader);
@@ -58,7 +59,7 @@ BOOST_AUTO_TEST_CASE(LoggerClass)
 	thrd1.interrupt();
 	thrd2.interrupt();
 	cout << "konec222" << endl;
-	thrd3.interrupt();
+	//thrd3.interrupt();
 	thrd2.join();
 	cout << "qfghh" << endl;
 	thrd1.join();
@@ -76,10 +77,10 @@ BOOST_AUTO_TEST_CASE( fakeStop )
 BOOST_AUTO_TEST_CASE( Scheduler_test )
 {
 	Scheduler *s = Scheduler::getInstance(4);
-	Logproxy lp;
+	Logproxy lp("asdf.txt");
 	for(int i = 0; i < 10; ++i)
 	{
-		lp.write("");
+		lp.write("asdf");
 	}
 	boost::thread thread(&Scheduler::operator(), s);
 	boost::this_thread::sleep(boost::posix_time::milliseconds(1000));

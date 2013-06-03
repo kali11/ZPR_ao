@@ -31,10 +31,13 @@ void Logger::write(string s)
 	mutex.lock();
 	//boost::unique_lock< boost::shared_mutex > lock(mutex);
 	//cout << s.size() << s << "write" <<endl;
-	cout << "pisze" << endl;
+	//cout << "pisze" << endl;
 	//boost::this_thread::sleep(boost::posix_time::milliseconds(600));
-	cout << "skon_pisac" << endl;
-	//file << s;
+	//cout << "skon_pisac" << endl;
+	boost::gregorian::date current_date(boost::gregorian::day_clock::local_day());
+	if(!file.is_open()) cout << "debug" << endl;
+	cout << "[" << current_date << "]\t" << s << endl;
+	file << "[" << current_date << "]\t" << s << endl;
 	mutex.unlock();
 }
 
@@ -44,14 +47,12 @@ string Logger::read()
 	//boost::shared_lock< boost::shared_mutex > lock(mutex);
 	mutex.lock_shared();
 	cout << "czytam" << endl;
-	//string s;
-	//s << file;
-	//return s;
+	string s;
+	file >> s;
 	//boost::this_thread::sleep(boost::posix_time::milliseconds(200));
 	cout << "skon czytac" << endl;
 	mutex.unlock_shared();
-	
-	return "kali";
+	return s;
 }
 
 bool Logger::canWrite()

@@ -16,6 +16,7 @@ class Logproxy
 {
 public:
 	Logproxy();
+	Logproxy(string filename);
 	boost::unique_future<string> read();
 	/**
 	* Bind Logger method with parameters and add request to the scheduler's queue
