@@ -59,6 +59,7 @@ private:
 	static Scheduler* pInstance_;
 	static volatile bool finish_; //Flaga - zg³oszenie przerwania
 	unsigned int maxThreads_;
+	vector<boost::thread*> threads;
 	/**
 	* current number of pending threads
 	*/

@@ -51,6 +51,7 @@ void Scheduler::operator()()
 					mutex_.unlock();
 					//calling function given by request in separate thread
 					boost::thread thread(&Scheduler::call, this, req);
+					threads.push_back(&thread);
 				}
 				else
 				{

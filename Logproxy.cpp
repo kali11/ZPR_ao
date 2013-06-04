@@ -13,12 +13,12 @@ Logproxy::Logproxy(string filename)
 
 boost::unique_future<string> Logproxy::read()
 {
-	boost::promise<string> prom;
-	boost::unique_future<string> fut = prom.get_future();
+	boost::promise<string> *prom = new boost::promise<string>();
+	boost::unique_future<string> fut = prom->get_future();
 	boost::function<void (void)> fr = NULL;
-	fr = boost::bind(&Logger::read, &logger, std::move(prom));
+	fr = boost::bind(&Logger::read, &logger, prom);
 
-	Request *req = new Request(&prom);
+	Request *req = new Request(prom);
 	req->load(fr);
 	scheduler->enqueue(req);
 

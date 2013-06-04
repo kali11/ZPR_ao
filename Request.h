@@ -19,14 +19,14 @@ public:
 	{
 		baseGuard = new RequestBase();
 		//promBase = new PromiseHolder<PROM>();
-		PromiseHolder<PROM> ph;
-		ph.promise = p;
+		//PromiseHolder<PROM> ph;
+		//ph.promise = p;
 
-		boost::function<void (PROM)> setf;
+		//boost::function<void (PROM)> setf;
 		//void (&fun)(PROM) = PromiseHolder<PROM>::setValue;
 		//void (&fun)(PROM) = ph.setValue;
 		//setf = boost::bind((void(PromiseHolder::*)(PROM&))&PromiseHolder::setValue, &ph, _1);
-		boost::bind<PROM>(PromiseFunctor(), "sdfsdfsd", ph)();
+		//boost::bind<PROM>(PromiseFunctor(), "sdfsdfsd", ph)();
 		//boost::bind<PROM>(PromiseFunctor(), "ssss", ph)();
 		//UnaryFunction<PROM>::type func = boost::bind(&setValue<PROM>, "qwewqe", p);
 		//boost::promise<PROM>* pr = promBase->getPromise();
@@ -38,7 +38,7 @@ public:
 	template<typename X>
 	void setValue(X val, boost::promise<X>* p)
 	{
-		p->set_value(val);
+		//p->set_value(val);
 	}
 
 
@@ -138,7 +138,7 @@ private:
 		//PromiseHolder() {cout << "nowy promise" << endl;}
 		void setValue(PROM val)
 		{
-			promise->set_value(val);
+			//promise->set_value(val);
 		}
 		boost::promise<PROM>* promise;
 	};
@@ -150,7 +150,7 @@ private:
 		template<typename ARG1, typename ARG2>
 		ARG1 operator()(ARG1 arg1, PromiseHolder<ARG2> pr) 
 		{
-			pr.setValue(arg1);
+			//pr.setValue(arg1);
 			return arg1;
 		}
 	};
