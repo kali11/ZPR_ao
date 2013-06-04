@@ -15,8 +15,8 @@ boost::unique_future<string> Logproxy::read()
 {
 	boost::promise<string> prom;
 	boost::unique_future<string> fut = prom.get_future();
-	boost::function<std::string (void)> fr = NULL;
-	fr = boost::bind(&Logger::read, &logger);
+	boost::function<void (void)> fr = NULL;
+	fr = boost::bind(&Logger::read, &logger, std::move(prom));
 
 	Request *req = new Request(&prom);
 	req->load(fr);

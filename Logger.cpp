@@ -36,7 +36,7 @@ void Logger::write(string s)
 	mutex.unlock();
 }
 
-string Logger::read()
+void Logger::read(boost::promise<string> prom)
 {
 	// no exclusive access
 	mutex.lock_shared();
@@ -45,7 +45,7 @@ string Logger::read()
 	cout << "read" << endl;
 	file >> s;
 	mutex.unlock_shared();
-	return s;
+	prom.set_value(s);
 }
 
 bool Logger::canWrite()

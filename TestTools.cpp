@@ -27,12 +27,15 @@ BOOST_AUTO_TEST_CASE( queueClass )
 Logger l;
 void reader()
 {
+	boost::promise<string> prom;
+	boost::unique_future<string> fut = prom.get_future();
 	for(;;)
 	{
 		
-		l.read();
+		l.read(std::move(prom));
+		fut.wait();
+		cout << fut.get() << endl;
 		boost::this_thread::interruption_point();
-		
 	}
 }
 void writer()

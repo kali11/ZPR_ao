@@ -25,7 +25,7 @@ public:
 	*
 	* @return string
 	*/
-	string read();
+	void read(boost::promise<string> prom);
 
 	/**
 	* write given string at the end of the log file.
